@@ -14,12 +14,12 @@ export default function Spotify() {
     const [navBackground, setNavBackground] = useState(false);
     const [headerBackground, setHeaderBackground] = useState(false);
     const bodyScrolled = () => {
-        bodyRef.current.scrollTop >= 30 
-        ? setNavBackground(true) 
-        : setNavBackground(false)
+        bodyRef.current.scrollTop >= 30
+            ? setNavBackground(true)
+            : setNavBackground(false)
         bodyRef.current.scrollTop >= 268
-        ? setHeaderBackground(true) 
-        : setHeaderBackground(false)
+            ? setHeaderBackground(true)
+            : setHeaderBackground(false)
     }
 
     useEffect(() => {
@@ -34,8 +34,8 @@ export default function Spotify() {
                 userId: data.id,
                 userName: data.display_name,
             };
-            
-            dispatch({ type:reducerCases.SET_USER, userInfo })
+
+            dispatch({ type: reducerCases.SET_USER, userInfo })
         };
         getUserInfo()
 
@@ -45,7 +45,7 @@ export default function Spotify() {
             <div className="spotify_body">
                 <Sidebar />
                 <div className="body" ref={bodyRef} onScroll={bodyScrolled}>
-                    <Navbar navBackground={navBackground}/>
+                    <Navbar navBackground={navBackground} />
                     <div className="body_content">
                         <Body headerBackground={headerBackground} />
                     </div>
@@ -71,10 +71,15 @@ grid-template-rows: 85vh 15vh;
     width: 100%;
     background: linear-gradient(transparent, rgba(0, 0, 0, 1));
     background-color: rgb(32, 87, 100);
-}
-.body {
-    height: 100%;
-    width: 85vw;
-    overflow: auto;
+    .body {
+        height: 100%;
+        width: 85vw;
+        overflow: auto;
+        &::-webkit-scrollbar {
+        width: 0.7rem;
+        &-thumb {
+            background-color: rgba(255, 255, 255, 0.6);}
+        }
+    }
 }
 `
