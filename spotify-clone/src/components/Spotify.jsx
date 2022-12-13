@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import Sidebar from './Sidebar'
 import Navbar from './Navbar'
@@ -10,6 +10,18 @@ import { reducerCases } from '../utils/Constant'
 
 export default function Spotify() {
     const [{ token }, dispatch] = useStateProvider();
+    const bodyRef = useRef();
+    const [navBackground, setNavBackground] = useState(false);
+    const [headerBackground, setHeaderBackground] = useState(false);
+    const bodyScrolled = () => {
+        bodyRef.current.scrollTop >= 30 
+        ? setNavBackground(true) 
+        : setNavBackground(false)
+        bodyRef.current.scrollTop >= 268
+        ? setHeaderBackground(true) 
+        : setHeaderBackground(false)
+    }
+
     useEffect(() => {
         const getUserInfo = async () => {
             const { data } = await axios.get("https://api.spotify.com/v1/me", {
@@ -32,10 +44,10 @@ export default function Spotify() {
         <Container>
             <div className="spotify_body">
                 <Sidebar />
-                <div className="body">
-                    <Navbar />
+                <div className="body" ref={bodyRef} onScroll={bodyScrolled}>
+                    <Navbar navBackground={navBackground}/>
                     <div className="body_content">
-                        <Body />
+                        <Body headerBackground={headerBackground} />
                     </div>
                 </div>
             </div>
@@ -62,7 +74,7 @@ grid-template-rows: 85vh 15vh;
 }
 .body {
     height: 100%;
-    width: 100%;
+    width: 85vw;
     overflow: auto;
 }
 `
